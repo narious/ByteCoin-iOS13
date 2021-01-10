@@ -11,6 +11,11 @@ import Foundation
 struct CoinModel: Encodable {
     let name: String
     let currency: String
-    let rate: String
+    let rate: Float
+    
+    var rateString: String {
+        return String(format: "%.2f", rate)
+    }
+    
 }
 

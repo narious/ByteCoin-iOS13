@@ -51,7 +51,11 @@ extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
 extension ViewController: CoinManagerDelegate {
     func didUpdateCoin(_ coinManager: CoinManager, _ coin: CoinModel) {
-        print(coin)
+        DispatchQueue.main.async {
+            // Need to call this in dispanch queue so app doesnt stop freeze
+            self.costLabel.text = coin.rateString
+            self.currencyLabel.text = coin.currency
+        }
     }
     
     func didFailWithError(error: Error) {

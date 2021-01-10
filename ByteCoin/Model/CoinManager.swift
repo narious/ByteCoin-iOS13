@@ -42,8 +42,7 @@ struct CoinManager {
                 if let safeData = data {
 //                    print(String(data: safeData, encoding: .utf8)!)'/
                     if let coin = self.parseJSON(safeData) {
-                        print(coin.rate)
-//                        self.delegate?.didUpdateCoin(self, coin)
+                        self.delegate?.didUpdateCoin(self, coin)
                     }
                     
                 }
@@ -60,7 +59,7 @@ struct CoinManager {
             let decodedData = try decoder.decode(CoinData.self, from: coinData)
             let name = decodedData.asset_id_base
             let currency = decodedData.asset_id_quote
-            let rate = String(format: "%.2f", decodedData.rate)
+            let rate = decodedData.rate
             
             let coinModel = CoinModel(name: name, currency: currency, rate: rate)
             return coinModel
