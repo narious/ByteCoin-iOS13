@@ -51,11 +51,11 @@ extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
 extension ViewController: CoinManagerDelegate {
     func didUpdateCoin(_ coinManager: CoinManager, _ coin: CoinModel) {
-        <#code#>
+        print(coin)
     }
     
     func didFailWithError(error: Error) {
-        <#code#>
+        print(error)
     }
     
     

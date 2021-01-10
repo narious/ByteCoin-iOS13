@@ -9,5 +9,8 @@
 import Foundation
 
 struct CoinModel: Encodable {
-    <#fields#>
+    let name: String
+    let currency: String
+    let rate: String
 }
+

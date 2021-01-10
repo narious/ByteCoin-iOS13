@@ -23,8 +23,8 @@ struct CoinManager {
     
     var delegate: CoinManagerDelegate?
     
-    func getCoinPrice(for currenct: String)  {
-        let urlString = ""
+    func getCoinPrice(for currency: String)  {
+        let urlString = "\(baseURL)/\(currency)?apikey=\(apiKey)"
         preformRequest(with: urlString)
     }
     
@@ -40,10 +40,11 @@ struct CoinManager {
                     return
                 }
                 if let safeData = data {
-                    print(safeData)
-//                    if let coin = self.parseJSON(safeData) {
+//                    print(String(data: safeData, encoding: .utf8)!)'/
+                    if let coin = self.parseJSON(safeData) {
+                        print(coin.rate)
 //                        self.delegate?.didUpdateCoin(self, coin)
-//                    }
+                    }
                     
                 }
             }
@@ -53,6 +54,20 @@ struct CoinManager {
     }
     
     func parseJSON(_ coinData: Data) -> CoinModel? {
-        return nil
+        let decoder = JSONDecoder()
+        // Using self at the end referes to its type and do try catch for throwable
+        do {
+            let decodedData = try decoder.decode(CoinData.self, from: coinData)
+            let name = decodedData.asset_id_base
+            let currency = decodedData.asset_id_quote
+            let rate = String(format: "%.2f", decodedData.rate)
+            
+            let coinModel = CoinModel(name: name, currency: currency, rate: rate)
+            return coinModel
+            
+        } catch {
+            self.delegate?.didFailWithError(error: error)
+            return nil
+        }
     }
 }
